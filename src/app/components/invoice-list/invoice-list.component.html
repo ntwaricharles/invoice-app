@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoices</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+        /* Ensure cards do not wrap */
+        .invoice-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: nowrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .mobile-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex flex-col lg:flex-row">
+    <!-- Sidebar for Desktop -->
+    <aside class="sidebar flex-col w-20 h-screen bg-gray-800 rounded-r-[19px] pb-8 hidden lg:flex">
+        <nav class="flex flex-col h-full">
+            <!-- Logo Section -->
+            <div class="flex justify-center items-center h-24 w-full bg-purple-700 rounded-b-lg">
+                <img class="h-14 object-contain" src="/assets/images/logo.svg" alt="Logo" />
+            </div>
+            <!-- Dark Mode Toggle and User Avatar -->
+            <div class="flex-grow flex flex-col justify-end items-center p-4">
+                <button class="p-2 bg-transparent border-none">
+                    <img src="assets/images/icon-sun.svg" class="w-5 h-5 transition-all duration-300 ease-in-out" alt="Dark Mode Toggle" />
+                </button>
+                <!-- User Avatar -->
+                <div class="mt-4 grid place-content-center">
+                    <img class="w-10 h-10 rounded-full" src="/assets/images/image-avatar.jpg" alt="User Avatar" />
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Top Navbar for Mobile/Tablet -->
+    <header class="mobile-nav w-full h-20 bg-gray-800 text-white flex justify-between items-center px-4 fixed top-0 z-50 lg:hidden">
+        <img class="h-10 object-contain" src="/assets/images/logo.svg" alt="Logo" />
+        <button class="p-2 bg-transparent border-none">
+            <img src="assets/images/icon-sun.svg" class="w-5 h-5 transition-all duration-300 ease-in-out" alt="Dark Mode Toggle" />
+        </button>
+        <div class="flex items-center space-x-2">
+            <img class="w-10 h-10 rounded-full" src="/assets/images/image-avatar.jpg" alt="User Avatar" />
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-10 pt-32 lg:pt-10 lg:ml-20">
+        <!-- Top Content -->
+        <div class="flex justify-between items-center mb-6">
+            <!-- Title -->
+            <h1 class="text-3xl font-bold">Invoices</h1>
+
+            <!-- Filter by Status and Add New Invoice Button -->
+            <div class="flex items-center space-x-4">
+                <!-- Filter by Status -->
+                <div class="flex items-center space-x-2 relative">
+                    <button id="filter-button" class="flex items-center space-x-2 bg-white border border-gray-300 rounded-lg p-2 pr-8">
+                        <span class="text-lg font-bold hidden lg:block">Filter by Status</span>
+                        <span class="text-lg font-bold lg:hidden">Filter</span>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                            <svg class="w-4 h-4 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <!-- Custom Dropdown Menu -->
+                    <div id="filter-menu" class="absolute top-full mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10 hidden">
+                        <label class="flex items-center p-2">
+                            <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" />
+                            <span class="ml-2 text-gray-700">Draft</span>
+                        </label>
+                        <label class="flex items-center p-2">
+                            <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" />
+                            <span class="ml-2 text-gray-700">Pending</span>
+                        </label>
+                        <label class="flex items-center p-2">
+                            <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" />
+                            <span class="ml-2 text-gray-700">Paid</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Add New Invoice Button -->
+                <button class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-6 rounded-full flex items-center space-x-2">
+                    <img src="/assets/images/icon-plus.svg" class="w-4 h-4 bg-white rounded-full p-1" alt="Add Icon" />
+                    <span class="hidden lg:block">New Invoice</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Invoice Cards -->
+        <div class="space-y-5">
+            <!-- Invoice Card 1 -->
+            <section class="invoice-card mb-5 min-h-20 p-4 lg:pl-12 shadow-lg rounded-lg bg-white">
+                <h1 class="text-lg font-bold">
+                    <span class="text-gray-400">#</span>
+                    <span class="text-black">RT3080</span>
+                </h1>
+                <p class="text-gray-600">Due 19 Aug 2021</p>
+                <p class="text-gray-500">Jensen Huang</p>
+                <p class="text-black font-extrabold">£ 1,800.90</p>
+                <div class="flex gap-4 items-center">
+                    <div class="flex items-center gap-2 py-2 px-5 rounded-lg relative">
+                        <div class="absolute w-full h-full top-0 left-0 bg-gray-500 opacity-10 rounded-lg"></div>
+                        <div class="w-2 h-2 rounded-full bg-gray-500 z-20"></div>
+                        <p class="text-gray-500 font-bold z-20">Draft</p>
+                    </div>
+                    <button>
+                        <img class="h-4" src="/assets/images/icon-arrow-right.svg" alt="Arrow Icon" />
+                    </button>
+                </div>
+            </section>
+
+            <!-- Invoice Card 2 -->
+            <section class="invoice-card mb-5 min-h-20 p-4 lg:pl-12 shadow-lg rounded-lg bg-white">
+                <h1 class="text-lg font-bold">
+                    <span class="text-gray-400">#</span>
+                    <span class="text-black">XM9141</span>
+                </h1>
+                <p class="text-gray-600">Due 20 Sep 2021</p>
+                <p class="text-gray-500">Alex Grim</p>
+                <p class="text-black font-extrabold">£ 556.00</p>
+                <div class="flex gap-4 items-center">
+                    <div class="flex items-center gap-2 py-2 px-5 rounded-lg relative">
+                        <div class="absolute w-full h-full top-0 left-0 bg-yellow-500 opacity-10 rounded-lg"></div>
+                        <div class="w-2 h-2 rounded-full bg-yellow-500 z-20"></div>
+                        <p class="text-yellow-500 font-bold z-20">Pending</p>
+                    </div>
+                    <button>
+                        <img class="h-4" src="/assets/images/icon-arrow-right.svg" alt="Arrow Icon" />
+                    </button>
+                </div>
+            </section>
+
+            <!-- Invoice Card 3 -->
+            <section class="invoice-card mb-5 min-h-20 p-4 lg:pl-12 shadow-lg rounded-lg bg-white">
+                <h1 class="text-lg font-bold">
+                    <span class="text-gray-400">#</span>
+                    <span class="text-black">FY4372</span>
+                </h1>
+                <p class="text-gray-600">Due 12 Oct 2021</p>
+                <p class="text-gray-500">Robert Fox</p>
+                <p class="text-black font-extrabold">£ 1,572.00</p>
+                <div class="flex gap-4 items-center">
+                    <div class="flex items-center gap-2 py-2 px-5 rounded-lg relative">
+                        <div class="absolute w-full h-full top-0 left-0 bg-green-500 opacity-10 rounded-lg"></div>
+                        <div class="w-2 h-2 rounded-full bg-green-500 z-20"></div>
+                        <p class="text-green-500 font-bold z-20">Paid</p>
+                    </div>
+                    <button>
+                        <img class="h-4" src="/assets/images/icon-arrow-right.svg" alt="Arrow Icon" />
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Filter Dropdown Toggle
+        const filterButton = document.getElementById('filter-button');
+        const filterMenu = document.getElementById('filter-menu');
+
+        filterButton.addEventListener('click', () => {
+            filterMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!filterButton.contains(e.target) && !filterMenu.contains(e.target)) {
+                filterMenu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>
