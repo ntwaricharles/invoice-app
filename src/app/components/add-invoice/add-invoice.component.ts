@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  FormArray,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
+import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -17,7 +11,11 @@ import { Location } from '@angular/common';
 export class AddInvoiceComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private location: Location) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private location: Location
+  ) {
     this.form = this.fb.group({
       streetAddress: ['', [Validators.required]],
       city: ['', [Validators.required]],
@@ -33,7 +31,6 @@ export class AddInvoiceComponent {
       payment: ['', [Validators.required]],
       projectDescription: ['', [Validators.required]],
       items: this.fb.array([this.createItemFormGroup()]),
-
     });
   }
 
@@ -44,25 +41,55 @@ export class AddInvoiceComponent {
   createItemFormGroup(): FormGroup {
     return this.fb.group({
       itemName: ['', [Validators.required]],
-      quantity: ['', [Validators.required]],
-      price: ['', [Validators.required]],
+      quantity: [1, [Validators.required, Validators.min(1)]],
+      price: [0.01, [Validators.required, Validators.min(0.01)]],
+      total: [{ value: 0, disabled: true }],
     });
   }
 
   addItem(): void {
-    this.items.push(this.createItemFormGroup());
+    const item = this.createItemFormGroup();
+    this.items.push(item);
+    this.updateTotal(item);
   }
 
   removeItem(index: number): void {
     this.items.removeAt(index);
   }
 
+  updateTotal(item: FormGroup): void {
+    const quantityControl = item.get('quantity');
+    const priceControl = item.get('price');
+    const totalControl = item.get('total');
+
+    quantityControl?.valueChanges.subscribe(() => {
+      const total = this.calculateTotal(
+        quantityControl.value,
+        priceControl?.value
+      );
+      totalControl?.setValue(total);
+    });
+
+    priceControl?.valueChanges.subscribe(() => {
+      const total = this.calculateTotal(
+        quantityControl?.value,
+        priceControl.value
+      );
+      totalControl?.setValue(total);
+    });
+  }
+
+  calculateTotal(quantity: number, price: number): number {
+    return quantity * price;
+  }
+
   onSubmit() {
-    if (this.form.invalid) {
-      console.log('Invalid form');
-      return;
+    if (this.form.valid) {
+      console.log(this.form.value);
+      // Process the form data
+    } else {
+      console.log('Form is invalid');
     }
-    console.log(this.form.value);
   }
 
   onReset() {
