@@ -6,19 +6,55 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { InvoiceDetailsComponent } from './components/invoice-details/invoice-details.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { invoiceReducer } from './store/invoice/invoice.reducer';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { InvoiceCardComponent } from './components/invoice-card/invoice-card.component';
+import { EmptyInvoiceComponent } from './components/empty-invoice/empty-invoice.component';
+import { ConfirmDeletionComponent } from './components/confirm-deletion/confirm-deletion.component';
+import { ButtonComponent } from './components/button/button.component';
+import { AddInvoiceComponent } from './components/add-invoice/add-invoice.component';
+import { HomeComponent } from './pages/home/home.component';
+import { InvoicesComponent } from './pages/invoices/invoices.component';
+import { AddInvoiceReducer } from './store/add-invoice-visibility/add-invoice-visibility.reducer';
+import { HttpClientModule } from '@angular/common/http';
+import { InvoiceEffects } from './store/invoice/invoice.effects';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InvoiceDetailsComponent,
+    SidebarComponent,
+    InvoiceCardComponent,
+    EmptyInvoiceComponent,
+    ConfirmDeletionComponent,
+    ButtonComponent,
+    AddInvoiceComponent,
+    HomeComponent,
+    InvoicesComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    StoreModule.forRoot({
+      addInvoice: AddInvoiceReducer,
+      invoices: invoiceReducer,
+    }),
+    EffectsModule.forRoot([InvoiceEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: !isDevMode(), // Restrict extension to log-only mode
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+      trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
+      traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
+      connectInZone: true, // If set to true, the connection is established within the Angular zone
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
