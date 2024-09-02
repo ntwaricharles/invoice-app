@@ -50,6 +50,7 @@
         text="Edit"
         backgroundColor="bg-light dark:bg-[#252945]"
         textColor="text-grey dark:text-white"
+        (click)="editInvoice()"
       ></app-button>
       <app-button
         text="Delete"
@@ -57,8 +58,9 @@
         textColor="text-light"
         (click)="deleteInvoice()"
       ></app-button>
-      <ng-container *ngIf="invoice.status == 'pending'">
+      <ng-container *ngIf="invoice$ | async as invoice">
         <app-button
+          *ngIf="invoice.status == 'pending'"
           text="Mark as Paid"
           backgroundColor="bg-purple"
           textColor="text-light"
@@ -192,11 +194,16 @@
 </div>
 
 <ng-template #loading>
-  <p class="min-h-screen dark:text-white font-bold flex items-center justify-center">
+  <p
+    class="min-h-screen dark:text-white font-bold flex items-center justify-center"
+  >
     waiting for invoice
   </p>
 </ng-template>
 
 <div *ngIf="showModal">
-  <app-confirm-deletion [showModal]="showModal"></app-confirm-deletion>
+  <app-delete-invoice
+    [showModal]="showModal"
+    [invoiceId]="selectedInvoiceId"
+  ></app-delete-invoice>
 </div>

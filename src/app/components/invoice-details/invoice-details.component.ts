@@ -10,15 +10,12 @@ import * as InvoiceActions from '../../store/invoice/invoice.actions';
 @Component({
   selector: 'app-invoice-details',
   templateUrl: './invoice-details.component.html',
-  styleUrl: './invoice-details.component.css',
+  styleUrls: ['./invoice-details.component.css'],
 })
 export class InvoiceDetailsComponent implements OnInit {
   showModal: boolean = false;
   invoice$!: Observable<Invoice | undefined>;
-
-  deleteInvoice() {
-    this.showModal = true;
-  }
+  selectedInvoiceId!: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,9 +27,14 @@ export class InvoiceDetailsComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       const idParam = params.get('id');
       if (idParam) {
+        this.selectedInvoiceId = idParam;
         this.invoice$ = this.store.select(selectInvoiceById(idParam));
       }
     });
+  }
+
+  deleteInvoice() {
+    this.showModal = true;
   }
 
   goBack() {
@@ -46,5 +48,10 @@ export class InvoiceDetailsComponent implements OnInit {
         InvoiceActions.updateInvoice({ invoice: updatedInvoice })
       );
     }
+  }
+
+  // New method to navigate to the edit form
+  editInvoice() {
+    this.router.navigate(['/edit-invoice', this.selectedInvoiceId]); // Navigate to the form with the invoiceId
   }
 }
