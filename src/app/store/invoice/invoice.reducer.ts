@@ -45,8 +45,8 @@ export const invoiceReducer = createReducer(
     error,
   })),
 
-  on(InvoiceActions.deleteInvoice, (state, { invoiceId }) => ({
+  on(InvoiceActions.deleteInvoice, (state, { id }) => ({
     ...state,
-    invoices: state.invoices.filter((inv) => inv.id !== invoiceId),
+    invoices: state.invoices.filter((invoice) => invoice.id !== id),
   }))
 );

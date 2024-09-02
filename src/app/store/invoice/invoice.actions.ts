@@ -26,5 +26,5 @@ export const updateInvoiceFailure = createAction(
 
 export const deleteInvoice = createAction(
   '[Invoice] Delete Invoice',
-  props<{ invoiceId: string }>()
+  props<{ id: string }>() // Ensure 'id' is defined here
 );

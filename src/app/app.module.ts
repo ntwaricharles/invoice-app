@@ -19,6 +19,7 @@ import { InvoicesComponent } from './pages/invoices/invoices.component';
 import { AddInvoiceReducer } from './store/invoice-form-display/invoice-form-display.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { InvoiceEffects } from './store/invoice/invoice.effects';
+import { DeleteInvoiceComponent } from './components/delete-invoice/delete-invoice.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { InvoiceEffects } from './store/invoice/invoice.effects';
     AddInvoiceComponent,
     HomeComponent,
     InvoicesComponent,
+    DeleteInvoiceComponent
   ],
   imports: [
     BrowserModule,
