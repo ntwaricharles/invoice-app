@@ -1,20 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormArray, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { InvoiceState } from '../../store/invoice/invoice.reducer';
+import { Observable } from 'rxjs';
+import { selectInvoiceById } from '../../store/invoice/invoice.selectors';
+import { Invoice } from '../../models/invoice.model';
 
 @Component({
   selector: 'app-add-invoice',
   templateUrl: './add-invoice.component.html',
   styleUrls: ['./add-invoice.component.css'],
 })
-export class AddInvoiceComponent {
+export class AddInvoiceComponent implements OnInit {
   form: FormGroup;
+  invoiceId!: string;
+  invoice$!: Observable<Invoice | undefined>;
+  @Input() showModal: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute, // Inject ActivatedRoute to get the invoiceId
+    private store: Store<{ invoice: InvoiceState }> // Inject Store to fetch invoice data
   ) {
     this.form = this.fb.group({
       streetAddress: ['', [Validators.required]],
@@ -31,6 +41,18 @@ export class AddInvoiceComponent {
       payment: ['', [Validators.required]],
       projectDescription: ['', [Validators.required]],
       items: this.fb.array([this.createItemFormGroup()]),
+    });
+  }
+
+  ngOnInit(): void {
+    // Get the invoiceId from the route
+    this.route.paramMap.subscribe((params) => {
+      const idParam = params.get('id');
+      if (idParam) {
+        this.invoiceId = idParam;
+        this.invoice$ = this.store.select(selectInvoiceById(this.invoiceId));
+        this.populateFormForEditing();
+      }
     });
   }
 
@@ -83,6 +105,42 @@ export class AddInvoiceComponent {
     return quantity * price;
   }
 
+  // Populate the form for editing
+  populateFormForEditing(): void {
+    this.invoice$.subscribe((invoice) => {
+      if (invoice) {
+        this.form.patchValue({
+          streetAddress: invoice.senderAddress.street,
+          city: invoice.senderAddress.city,
+          postCode: invoice.senderAddress.postCode,
+          country: invoice.senderAddress.country,
+          clientName: invoice.clientName,
+          email: invoice.clientEmail,
+          clientStreetAddress: invoice.clientAddress.street,
+          clientCity: invoice.clientAddress.city,
+          clientPostCode: invoice.clientAddress.postCode,
+          clientCountry: invoice.clientAddress.country,
+          invoiceDate: invoice.createdAt,
+          payment: invoice.paymentTerms,
+          projectDescription: invoice.description,
+        });
+
+        // Clear existing items and add items from invoice
+        this.items.clear();
+        invoice.items.forEach((item) => {
+          const itemGroup = this.createItemFormGroup();
+          itemGroup.patchValue({
+            itemName: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            total: item.total,
+          });
+          this.items.push(itemGroup);
+        });
+      }
+    });
+  }
+
   onSubmit() {
     if (this.form.valid) {
       console.log(this.form.value);
@@ -96,7 +154,8 @@ export class AddInvoiceComponent {
     this.form.reset();
   }
 
-  hideModal() {
-    window.location.reload();
+  closeModal() {
+    this.showModal = false;
+    this.router.navigate(['/invoices']);
   }
 }

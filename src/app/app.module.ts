@@ -12,7 +12,6 @@ import { invoiceReducer } from './store/invoice/invoice.reducer';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { InvoiceCardComponent } from './components/invoice-card/invoice-card.component';
 import { EmptyInvoiceComponent } from './components/empty-invoice/empty-invoice.component';
-import { ConfirmDeletionComponent } from './components/confirm-deletion/confirm-deletion.component';
 import { ButtonComponent } from './components/button/button.component';
 import { AddInvoiceComponent } from './components/add-invoice/add-invoice.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -28,7 +27,6 @@ import { InvoiceEffects } from './store/invoice/invoice.effects';
     SidebarComponent,
     InvoiceCardComponent,
     EmptyInvoiceComponent,
-    ConfirmDeletionComponent,
     ButtonComponent,
     AddInvoiceComponent,
     HomeComponent,
