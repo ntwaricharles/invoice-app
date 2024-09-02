@@ -1,4 +1,4 @@
-import { AddInvoiceState } from './../../store/add-invoice-visibility/add-invoice-visibility.reducer';
+import { AddInvoiceState } from '../../store/invoice-form-display/invoice-form-display.reducer';
 import { InvoiceState } from './../../store/invoice/invoice.reducer';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import {
   selectInvoices,
   selectIsLoading,
 } from '../../store/invoice/invoice.selectors';
-import { showAddInvoice } from '../../store/add-invoice-visibility/add-invoice-visibility.actions';
+import { showAddInvoice } from '../../store/invoice-form-display/invoice-form-display.actions';
 import { Router } from '@angular/router';
 
 @Component({

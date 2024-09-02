@@ -1,8 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import {
-  showAddInvoice,
-  hideAddInvoice,
-} from './add-invoice-visibility.actions';
+import { showAddInvoice, hideAddInvoice } from './invoice-form-display.actions';
 
 export interface AddInvoiceState {
   isVisible: boolean;

@@ -17,7 +17,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { AddInvoiceComponent } from './components/add-invoice/add-invoice.component';
 import { HomeComponent } from './pages/home/home.component';
 import { InvoicesComponent } from './pages/invoices/invoices.component';
-import { AddInvoiceReducer } from './store/add-invoice-visibility/add-invoice-visibility.reducer';
+import { AddInvoiceReducer } from './store/invoice-form-display/invoice-form-display.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { InvoiceEffects } from './store/invoice/invoice.effects';
 

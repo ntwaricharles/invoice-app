@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectIsInvoiceVisible } from '../../store/add-invoice-visibility/add-invoice-visibility.selectors';
-import { hideAddInvoice } from '../../store/add-invoice-visibility/add-invoice-visibility.actions';
-import { AddInvoiceState } from '../../store/add-invoice-visibility/add-invoice-visibility.reducer';
+import { selectIsInvoiceVisible } from '../../store/invoice-form-display/invoice-form-display.selectors';
+import { hideAddInvoice } from '../../store/invoice-form-display/invoice-form-display.actions';
+import { AddInvoiceState } from '../../store/invoice-form-display/invoice-form-display.reducer';
 
 @Component({
   selector: 'app-home',
