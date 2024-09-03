@@ -23,8 +23,8 @@ export class AddInvoiceComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private location: Location,
-    private route: ActivatedRoute, // Inject ActivatedRoute to get the invoiceId
-    private store: Store<{ invoice: InvoiceState }> // Inject Store to fetch invoice data
+    private route: ActivatedRoute,
+    private store: Store<{ invoice: InvoiceState }> 
   ) {
     this.form = this.fb.group({
       streetAddress: ['', [Validators.required]],
@@ -124,8 +124,7 @@ export class AddInvoiceComponent implements OnInit {
           payment: invoice.paymentTerms,
           projectDescription: invoice.description,
         });
-
-        // Clear existing items and add items from invoice
+        
         this.items.clear();
         invoice.items.forEach((item) => {
           const itemGroup = this.createItemFormGroup();
@@ -144,7 +143,6 @@ export class AddInvoiceComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       console.log(this.form.value);
-      // Process the form data
     } else {
       console.log('Form is invalid');
     }

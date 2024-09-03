@@ -50,8 +50,7 @@ export class InvoiceDetailsComponent implements OnInit {
     }
   }
 
-  // New method to navigate to the edit form
   editInvoice() {
-    this.router.navigate(['/edit-invoice', this.selectedInvoiceId]); // Navigate to the form with the invoiceId
+    this.router.navigate(['/edit-invoice', this.selectedInvoiceId]);
   }
 }
