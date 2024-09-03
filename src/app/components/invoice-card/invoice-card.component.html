@@ -16,7 +16,7 @@
     <button
       [ngClass]="{
         'bg-[#effff9] dark:bg-[#636f6b]': invoice.status === 'paid',
-        'bg-[#f0f0f0] dark:bg-[#252945]': invoice.status === 'draft',
+        'bg-[#f0f0f0] dark:bg-navyBlue': invoice.status === 'draft',
         'bg-[#fff8ee] dark:bg-[#534f4b]': invoice.status === 'pending'
       }"
       class="py-2 px- rounded-md flex gap-2 items-center justify-center w-[120px]"
@@ -59,7 +59,7 @@
     <button
       [ngClass]="{
         'bg-[#effff9] dark:bg-[#636f6b]': invoice.status === 'paid',
-        'bg-[#f0f0f0] dark:bg-[#252945]': invoice.status === 'draft',
+        'bg-[#f0f0f0] dark:bg-navyBlue': invoice.status === 'draft',
         'bg-[#fff8ee] dark:bg-[#534f4b]': invoice.status === 'pending'
       }"
       class="dark:bg-[#1a5844] py-2 rounded-md flex gap-2 items-center justify-center w-40"
