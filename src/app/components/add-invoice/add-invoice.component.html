@@ -5,8 +5,9 @@
     class="custom-scrollbar overflow-y-auto h-screen bg-transparent w-[100%] mx-auto"
   >
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-8">
-      <h1 class="text-black dark:text-white font-bold text-2xl">New Invoice</h1>
-
+      <h1 class="text-black dark:text-white font-bold text-2xl">
+        {{ invoiceId ? 'Edit #' + invoiceId : 'New Invoice' }}
+      </h1>
       <div class="space-y-6">
         <h1 class="text-purple font-semibold">Bill From</h1>
         <div>

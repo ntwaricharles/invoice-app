@@ -41,11 +41,11 @@ export class InvoiceDetailsComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  // Mark as paid
   markAsPaid(invoice: Invoice) {
     if (invoice.status !== 'paid') {
-      const updatedInvoice = { ...invoice, status: 'paid' };
       this.store.dispatch(
-        InvoiceActions.updateInvoice({ invoice: updatedInvoice })
+        InvoiceActions.markInvoiceAsPaid({ invoiceId: invoice.id })
       );
     }
   }

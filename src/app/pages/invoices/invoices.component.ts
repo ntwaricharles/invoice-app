@@ -35,7 +35,15 @@ export class InvoicesComponent {
   }
 
   loadInvoices() {
-    this.store.dispatch(InvoiceActions.loadInvoices());
+    // First try loading invoices from localStorage
+    this.store.dispatch(InvoiceActions.loadInvoicesFromLocalStorage());
+
+    // Optionally, you can add fallback logic if localStorage is empty
+    this.invoices$.subscribe((invoices) => {
+      if (invoices.length === 0) {
+        this.store.dispatch(InvoiceActions.loadInvoices()); // Load from API
+      }
+    });
   }
 
   toggleDropdown(): void {

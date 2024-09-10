@@ -7,6 +7,7 @@ import { InvoiceState } from '../../store/invoice/invoice.reducer';
 import { Observable } from 'rxjs';
 import { selectInvoiceById } from '../../store/invoice/invoice.selectors';
 import { Invoice } from '../../models/invoice.model';
+import * as InvoiceActions from '../../store/invoice/invoice.actions';
 
 @Component({
   selector: 'app-add-invoice',
@@ -24,7 +25,7 @@ export class AddInvoiceComponent implements OnInit {
     private router: Router,
     private location: Location,
     private route: ActivatedRoute,
-    private store: Store<{ invoice: InvoiceState }> 
+    private store: Store<{ invoice: InvoiceState }>
   ) {
     this.form = this.fb.group({
       streetAddress: ['', [Validators.required]],
@@ -45,13 +46,13 @@ export class AddInvoiceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Get the invoiceId from the route
+    // Check if the form is being used to edit an existing invoice
     this.route.paramMap.subscribe((params) => {
       const idParam = params.get('id');
       if (idParam) {
         this.invoiceId = idParam;
         this.invoice$ = this.store.select(selectInvoiceById(this.invoiceId));
-        this.populateFormForEditing();
+        this.populateFormForEditing(); // Populate form if editing
       }
     });
   }
@@ -105,7 +106,7 @@ export class AddInvoiceComponent implements OnInit {
     return quantity * price;
   }
 
-  // Populate the form for editing
+  // Populate the form for editing an existing invoice
   populateFormForEditing(): void {
     this.invoice$.subscribe((invoice) => {
       if (invoice) {
@@ -124,7 +125,8 @@ export class AddInvoiceComponent implements OnInit {
           payment: invoice.paymentTerms,
           projectDescription: invoice.description,
         });
-        
+
+        // Update items in the form
         this.items.clear();
         invoice.items.forEach((item) => {
           const itemGroup = this.createItemFormGroup();
@@ -142,7 +144,19 @@ export class AddInvoiceComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      console.log(this.form.value);
+      const newInvoice: Invoice = this.form.value;
+      // Check if editing or adding new invoice
+      if (this.invoiceId) {
+        // Editing logic (assuming update is already implemented)
+        const updatedInvoice = { ...newInvoice, id: this.invoiceId };
+        this.store.dispatch(
+          InvoiceActions.updateInvoice({ invoice: updatedInvoice })
+        );
+      } else {
+        // Adding new invoice
+        this.store.dispatch(InvoiceActions.addInvoice({ invoice: newInvoice }));
+      }
+      this.router.navigate(['/invoices']);
     } else {
       console.log('Form is invalid');
     }
